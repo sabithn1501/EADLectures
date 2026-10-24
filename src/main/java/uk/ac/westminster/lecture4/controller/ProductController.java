@@ -28,5 +28,14 @@ public class ProductController {
     public List<Product> getProductsByName(
             @RequestParam String name) {
         return productService.findProductsByName(name);
+
+    }
+
+    // ProductController.java
+    @GetMapping("/summaries")
+    public List<String> getAllProductSummaries() {
+//        productService.testSummary();
+        productService.testDiscount();
+        return productService.getAllSummaries();
     }
 }

@@ -23,9 +23,12 @@ public class ProductService {
 
         products.add(new PhysicalProduct(nextId++,
                 "Monitor", 249.99, 5.4, "60x40"));
+
+//        products.add(new Product(nextId++, "book", 100.00));
     }
 
     public List<Product> getProducts() {
+        products.get(0);
         System.out.println("getProducts() called");
         return products;
     }
@@ -42,6 +45,54 @@ public class ProductService {
                         .contains(name.toLowerCase()))
                 .toList();
     }
+
+    public List<String> getAllSummaries(){
+
+        List<String> summaries = new ArrayList<>();
+        for (Product p : products) {
+            summaries.add(p.getSummary());
+        }
+        return summaries;
+
+//        return products.stream().map(p ->
+//                p.getSummary()).toList();
+
+    }
+
+    public void testMethods(){
+        Product p1 = new DigitalProduct(nextId++, "E-book",
+                9.99, "/dl/1", 4.2);
+
+        DigitalProduct dp = (DigitalProduct) p1;
+
+        System.out.println(dp.getDownloadUrl());
+    }
+
+    public void testDiscount(){
+        DigitalProduct digital = new DigitalProduct(
+                1L, "Java E-book", 100.00,
+                "https://example.com/java", 25.5
+        );
+
+        PhysicalProduct physical = new PhysicalProduct(
+                2L, "Laptop", 100.00,
+                2.1, "35 x 25 x 2 cm"
+        );
+
+        digital.applyDiscount(0.30);
+        physical.applyDiscount(0.50);
+
+        System.out.println("Digital prouduct: "+digital.getDiscountedPrice());
+        System.out.println("Physical prouduct: "+physical.getDiscountedPrice());
+    }
+
+//    public void testSummary(){
+//        PhysicalProduct physical = new PhysicalProduct(
+//                2L, "Laptop", 100.00,
+//                2.1, "35 x 25 x 2 cm"
+//        );
+//        physical.DisplaySummary();
+//    }
 
 
 }

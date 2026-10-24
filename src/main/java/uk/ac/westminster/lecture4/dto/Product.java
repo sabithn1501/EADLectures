@@ -8,11 +8,14 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(DigitalProduct.class),
         @JsonSubTypes.Type(PhysicalProduct.class)
 })
-public class Product {
+public abstract class Product {
     private Long id;
     private String name;
 
     private Double price;
+
+    public Product() {
+    }
 
     public Product(Long id, String name, Double price) {
         this.id = id;
@@ -48,6 +51,16 @@ public class Product {
         }
         this.price = price;
     }
+
+//    public String getSummary(){
+//        return "name: " + name +" | price: "+ price;
+//    }
+
+//    public Product getRelatedProduct() {
+//        return new Product();
+//    }
+
+    public abstract String getSummary();
 
     public void displayDetails() {
         System.out.println("General product");
