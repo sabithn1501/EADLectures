@@ -2,6 +2,7 @@ package uk.ac.westminster.lecture4;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import uk.ac.westminster.lecture4.controller.ProductController;
 import uk.ac.westminster.lecture4.util.ProductValidator;
 
 @SpringBootApplication
@@ -33,6 +34,16 @@ public class Lecture4Application {
 //        } finally {
 //            System.out.println("Execution complete.");
 //        }
+
+
+        /*
+        Because the field is not final and not required by a constructor,
+        Java happily lets you create an incomplete, broken object where productService is null.
+        With constructor injection, Java makes it impossible to create the controller without providing the service:
+         */
+//        ProductController controller = new ProductController();
+//
+//        controller.getProductByUniqueId(1L);
 
 
     }

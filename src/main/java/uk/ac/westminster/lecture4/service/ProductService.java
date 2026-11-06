@@ -5,44 +5,49 @@ import uk.ac.westminster.lecture4.dto.DigitalProduct;
 import uk.ac.westminster.lecture4.dto.PhysicalProduct;
 import uk.ac.westminster.lecture4.dto.Product;
 import uk.ac.westminster.lecture4.exception.ProductNotFoundException;
-import uk.ac.westminster.lecture4.service.interfaces.Discountable;
-
-import java.util.ArrayList;
+import uk.ac.westminster.lecture4.repository.interfaces.ProductRepository;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProductService {
-    private List<Product> products = new ArrayList<>();
+
+    private final ProductRepository productRepository;
+
+
+//    private List<Product> products = new ArrayList<>();
 
     //nextId++ — use the current value, then increment.
     //++nextId — increment first, then use the new value.
     private Long nextId = 1L;
 
-    public ProductService() {
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
         System.out.println("ProductService constructor executed");
         // Note: no new Product(...) anywhere — it is abstract now.
-        products.add(new DigitalProduct(
-                nextId++, "Clean Code (E-book)", 29.99,
-                "/downloads/clean-code.pdf", 4.2));
-        products.add(new PhysicalProduct(
-                nextId++, "27-inch Monitor", 249.99,
-                5.4, "61cm x 41cm x 18cm"));
+//        products.add(new DigitalProduct(
+//                nextId++, "Clean Code (E-book)", 29.99,
+//                "/downloads/clean-code.pdf", 4.2));
+//        products.add(new PhysicalProduct(
+//                nextId++, "27-inch Monitor", 249.99,
+//                5.4, "61cm x 41cm x 18cm"));
 
 //        products.add(new Product(nextId++, "book", 100.00));
     }
 
     public List<Product> getProducts() {
-        products.get(0);
         System.out.println("getProducts() called");
-        return products;
+        return productRepository.findAllProducts();
+//        return products;
+
     }
 
     public Optional<Product> getProductById(Long id) {
         System.out.println("product Service getProductById invoked");
-        return products.stream()
-                    .filter(p -> p.getId().equals(id))
-                    .findFirst();
+//        return products.stream()
+//                    .filter(p -> p.getId().equals(id))
+//                    .findFirst();
+        return productRepository.findProductById(id);
     }
 
     // Notice that the return type has changed from Optional<Product> to Product.
@@ -51,15 +56,18 @@ public class ProductService {
         - If the product doesn't exist, throw ProductNotFoundException.
     * */
     public Product getProductByUniqueId(Long id) {
-        return products.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() ->
-                        new ProductNotFoundException(id));
+//        return products.stream()
+//                .filter(p -> p.getId().equals(id))
+//                .findFirst()
+//                .orElseThrow(() ->
+//                        new ProductNotFoundException(id));
+        return productRepository.findProductById(id)
+                .orElseThrow(()-> new ProductNotFoundException(id));
     }
 
     public String deleteProduct(Long id) {
-        boolean flag = products.removeIf(product -> product.getId().equals(id));
+//        boolean flag = products.removeIf(product -> product.getId().equals(id));
+        boolean flag = productRepository.deleteProduct(id);
 
         if (flag) {
             return "Successfully deleted";
@@ -73,32 +81,32 @@ public class ProductService {
 
 
     public Product addProduct(Product product) {
-        product.setId(nextId);
-        nextId += 1L;
-        products.add(product);
-        return product;
+//        product.setId(nextId);
+//        nextId += 1L;
+//        products.add(product);
+//        return product;
+        return productRepository.saveProduct(product);
     }
     public List<Product> findProductsByName(String name) {
-        return products.stream()
-                .filter(product -> product.getName().toLowerCase()
-                        .contains(name.toLowerCase()))
-                .toList();
+//        return products.stream()
+//                .filter(product -> product.getName().toLowerCase()
+//                        .contains(name.toLowerCase()))
+//                .toList();
+        return productRepository.findByName(name);
     }
 
     public List<String> getAllSummaries(){
 
-        List<String> summaries = new ArrayList<>();
-        for (Product p : products) {
-            summaries.add(p.getSummary());
-            if (p instanceof Discountable d) {
-                d.applyDiscount(0.10);
-                System.out.println("Digital prouduct: "+d.getDiscountedPrice());
-            }
-        }
-        return summaries;
-
-//        return products.stream().map(p ->
-//                p.getSummary()).toList();
+//        List<String> summaries = new ArrayList<>();
+//        for (Product p : products) {
+//            summaries.add(p.getSummary());
+//            if (p instanceof Discountable d) {
+//                d.applyDiscount(0.10);
+//                System.out.println("Digital prouduct: "+d.getDiscountedPrice());
+//            }
+//        }
+//        return summaries;
+        return productRepository.getAllSummaries();
 
     }
 

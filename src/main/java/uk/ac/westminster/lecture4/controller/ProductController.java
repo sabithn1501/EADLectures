@@ -13,8 +13,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    @Autowired
-    private ProductService productService;
+
+    /*
+    When Spring uses field injection, it creates the object first using a default no-args constructor (new ProductController()),
+    and then uses reflection behind the scenes to inject the dependency directly into the private field afterward.
+    Because the object already exists before the field gets a value,
+    Java forces you to leave the field non-final (mutable).
+     */
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     //orElse(null) - Misleading response orElse(null)
     //this results in a 200 OK response with no response body.
