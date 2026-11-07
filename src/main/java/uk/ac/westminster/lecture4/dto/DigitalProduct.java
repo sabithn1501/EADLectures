@@ -32,9 +32,6 @@ public class DigitalProduct extends Product implements Discountable {
         this.fileSizeMB = fileSizeMB;
     }
 
-    public double getDiscountedPrice() {
-        return discountedPrice;
-    }
 
     public void setDiscountedPrice(double discountedPrice) {
         this.discountedPrice = discountedPrice;
@@ -47,13 +44,15 @@ public class DigitalProduct extends Product implements Discountable {
         downloadUrl + " | FileSize: " + fileSizeMB;
     }
 
-
-
-
     @Override
     public void applyDiscount(double rate) {
         // no shipping: full rate applies
         discountedPrice = getPrice() * (1 - rate);
+    }
+
+    @Override
+    public double getDiscountedPrice() {
+        return discountedPrice;
     }
 
 //    @Override

@@ -1,0 +1,33 @@
+abstract class Product {
+- id : Long
+- name : String
+- price : double
++ {abstract} getSummary() : String
++ getName() : String
++ getPrice() : double
+}
+interface Discountable {
++ applyDiscount(rate : double) : void
++ getDiscountedPrice() : double
+}
+class DigitalProduct {
+- downloadUrl : String
+- fileSizeMB : double
++ getSummary() : String
++ applyDiscount(rate : double) : void
+}
+
+class PhysicalProduct {
+- weightKg : double
+- dimensions : String
++ getSummary() : String
++ applyDiscount(rate : double) : void
+}
+
+' Generalisation (extends): SOLID line, hollow triangle at Product '
+Product <|-- DigitalProduct
+Product <|-- PhysicalProduct
+
+' Realisation (implements): DASHED line, hollow triangle at Discountable'
+Discountable <|.. DigitalProduct
+Discountable <|.. PhysicalProduct

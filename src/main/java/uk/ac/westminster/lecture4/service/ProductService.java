@@ -4,9 +4,12 @@ import org.springframework.stereotype.Service;
 import uk.ac.westminster.lecture4.dto.DigitalProduct;
 import uk.ac.westminster.lecture4.dto.PhysicalProduct;
 import uk.ac.westminster.lecture4.dto.Product;
+import uk.ac.westminster.lecture4.exception.ProductNotFoundException;
+import uk.ac.westminster.lecture4.service.interfaces.Discountable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -18,11 +21,13 @@ public class ProductService {
 
     public ProductService() {
         System.out.println("ProductService constructor executed");
-        products.add(new DigitalProduct(nextId++, "E-book",
-                9.99, "/dl/1", 4.2));
-
-        products.add(new PhysicalProduct(nextId++,
-                "Monitor", 249.99, 5.4, "60x40"));
+        // Note: no new Product(...) anywhere — it is abstract now.
+        products.add(new DigitalProduct(
+                nextId++, "Clean Code (E-book)", 29.99,
+                "/downloads/clean-code.pdf", 4.2));
+        products.add(new PhysicalProduct(
+                nextId++, "27-inch Monitor", 249.99,
+                5.4, "61cm x 41cm x 18cm"));
 
 //        products.add(new Product(nextId++, "book", 100.00));
     }
@@ -32,6 +37,40 @@ public class ProductService {
         System.out.println("getProducts() called");
         return products;
     }
+
+    public Optional<Product> getProductById(Long id) {
+        System.out.println("product Service getProductById invoked");
+        return products.stream()
+                    .filter(p -> p.getId().equals(id))
+                    .findFirst();
+    }
+
+    // Notice that the return type has changed from Optional<Product> to Product.
+    /*The service now has a clear contract:
+        - If the product exists, return it.
+        - If the product doesn't exist, throw ProductNotFoundException.
+    * */
+    public Product getProductByUniqueId(Long id) {
+        return products.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() ->
+                        new ProductNotFoundException(id));
+    }
+
+    public String deleteProduct(Long id) {
+        boolean flag = products.removeIf(product -> product.getId().equals(id));
+
+        if (flag) {
+            return "Successfully deleted";
+
+        } else {
+            throw new ProductNotFoundException(id);
+        }
+    }
+
+
+
 
     public Product addProduct(Product product) {
         product.setId(nextId);
@@ -51,6 +90,10 @@ public class ProductService {
         List<String> summaries = new ArrayList<>();
         for (Product p : products) {
             summaries.add(p.getSummary());
+            if (p instanceof Discountable d) {
+                d.applyDiscount(0.10);
+                System.out.println("Digital prouduct: "+d.getDiscountedPrice());
+            }
         }
         return summaries;
 
@@ -62,10 +105,19 @@ public class ProductService {
     public void testMethods(){
         Product p1 = new DigitalProduct(nextId++, "E-book",
                 9.99, "/dl/1", 4.2);
+        p1.getName();
+
+//        Product a = new Product(1L, "Mug", 8.50);
+
+       System.out.println ( "download url: "+((DigitalProduct)
+               p1).getDownloadUrl());
 
         DigitalProduct dp = (DigitalProduct) p1;
 
-        System.out.println(dp.getDownloadUrl());
+//        System.out.println(((DigitalProduct)
+//                a).getDownloadUrl());
+//
+//        System.out.println(dp.getDownloadUrl());
     }
 
     public void testDiscount(){

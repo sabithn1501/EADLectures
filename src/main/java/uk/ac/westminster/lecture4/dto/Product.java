@@ -1,5 +1,6 @@
 package uk.ac.westminster.lecture4.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -53,14 +54,19 @@ public abstract class Product {
     }
 
 //    public String getSummary(){
-//        return "name: " + name +" | price: "+ price;
+//        return getName() + " — £" + getPrice();
 //    }
+
+    public abstract String getSummary();
 
 //    public Product getRelatedProduct() {
 //        return new Product();
 //    }
 
-    public abstract String getSummary();
+    //Your Java method: getSummary() generates a summary string.
+    //Jackson: sees the getter and automatically maps its return value to a JSON property.
+//    @JsonIgnore
+//    public abstract String getSummary();
 
     public void displayDetails() {
         System.out.println("General product");
