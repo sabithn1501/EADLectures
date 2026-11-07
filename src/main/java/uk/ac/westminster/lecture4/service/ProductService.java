@@ -107,9 +107,15 @@ public class ProductService {
                 9.99, "/dl/1", 4.2);
         p1.getName();
 
+//        Product a = new Product(1L, "Mug", 8.50);
 
+       System.out.println ( "download url: "+((DigitalProduct)
+               p1).getDownloadUrl());
 
-//        DigitalProduct dp = (DigitalProduct) p1;
+        DigitalProduct dp = (DigitalProduct) p1;
+
+//        System.out.println(((DigitalProduct)
+//                a).getDownloadUrl());
 //
 //        System.out.println(dp.getDownloadUrl());
     }

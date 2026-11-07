@@ -66,7 +66,7 @@ public class ProductController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+//    @ResponseStatus(HttpStatus.CREATED)
     public Product addProduct(@RequestBody Product product) {
         System.out.println(product.getClass().getSimpleName());
         return productService.addProduct(product);
@@ -90,7 +90,8 @@ public class ProductController {
     @GetMapping("/summaries")
     public List<String> getAllProductSummaries() {
 //        productService.testSummary();
-//        productService.testDiscount();
+        productService.testDiscount();
+        productService.testMethods();
         return productService.getAllSummaries();
     }
 }

@@ -34,10 +34,6 @@ public class PhysicalProduct extends Product implements Discountable {
     }
 
 
-    @Override
-    public double getDiscountedPrice() {
-        return discountedPrice;
-    }
 
     public void setDiscountedPrice(double discountedPrice) {
         this.discountedPrice = discountedPrice;
@@ -70,4 +66,10 @@ public class PhysicalProduct extends Product implements Discountable {
             double capped = Math.min(rate, 0.20);
             this.discountedPrice = getPrice()* (1 - capped);
     }
+
+    @Override
+    public double getDiscountedPrice() {
+        return discountedPrice;
+    }
+
 }
