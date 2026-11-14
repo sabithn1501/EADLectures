@@ -89,6 +89,12 @@ public class ProductController {
         return productService.deleteProduct(id);
     }
 
+    @DeleteMapping("test/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProductByIdResultNonContent(@PathVariable Long id) {
+        productService.deleteProduct(id);
+    }
+
     @GetMapping("/search")
     public List<Product> getProductsByName(
             @RequestParam String name) {

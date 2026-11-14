@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(DigitalProduct.class),
         @JsonSubTypes.Type(PhysicalProduct.class)
 })
-public class Product {
+public abstract class Product {
     private Long id;
     private String name;
 
