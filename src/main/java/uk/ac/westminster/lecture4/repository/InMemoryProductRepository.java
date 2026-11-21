@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Primary
+//@Primary
 public class InMemoryProductRepository implements ProductRepository {
     private final List<Product> products
             = new ArrayList<>();

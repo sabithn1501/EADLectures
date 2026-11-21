@@ -46,6 +46,7 @@ class ProductControllerTest1 {
     void shouldReturnProductAsJson() throws Exception {
         when(service.getProductByUniqueId(1L))
                 .thenReturn(new DigitalProduct(1L, "E-book", 9.99, "/dl/1", 4.2));
+
         mockMvc.perform(get("/products/exception/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name")

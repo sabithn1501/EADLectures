@@ -1,5 +1,6 @@
 package uk.ac.westminster.lecture4.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import uk.ac.westminster.lecture4.dto.DigitalProduct;
 import uk.ac.westminster.lecture4.dto.PhysicalProduct;
@@ -21,7 +22,10 @@ public class ProductService {
     //++nextId — increment first, then use the new value.
     private Long nextId = 1L;
 
-    public ProductService(ProductRepository productRepository) {
+    //@Qualifier("databaseProductRepository")
+
+    public ProductService(
+            @Qualifier("inMemoryProductRepository") ProductRepository productRepository) {
         this.productRepository = productRepository;
         System.out.println("ProductService constructor executed");
         // Note: no new Product(...) anywhere — it is abstract now.

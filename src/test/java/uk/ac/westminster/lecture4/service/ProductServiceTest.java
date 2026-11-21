@@ -48,7 +48,7 @@ class ProductServiceTest {
     void shouldThrowWhenProductNotFound() {
         when(repository.findProductById(999L)).thenReturn(Optional.empty());
 
-
+        verify(repository).findProductById(999L);
         assertThrows(ProductNotFoundException.class, () -> service.getProductByUniqueId(999L));
     }
 

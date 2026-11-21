@@ -1,0 +1,26 @@
+@startuml
+class ProductController {
+- productService : ProductService
++ getAll() : List<Product>
+}
+class ProductService {
+- repository : ProductRepository
++ findById(id : Long) : Product
+}
+interface ProductRepository {
++ findAll() : List<Product>
++ findById(id : Long) : Optional<Product>
++ save(product : Product) : Product
++ delete(id : Long) : void
+}
+class InMemoryProductRepository {
+- store : Map<Long, Product>
+- nextId : Long
+}
+' <|.. realisation (implements): DASHED with hollow triangle
+ProductRepository <|.. InMemoryProductRepository
+' ..> dependency (uses): DOTTED with open arrowhead
+ProductController ..> ProductService
+ProductService ..> ProductRepository
+@enduml
+

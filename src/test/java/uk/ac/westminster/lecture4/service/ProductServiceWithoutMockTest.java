@@ -32,9 +32,12 @@ class ProductServiceWithoutMockTest {
                         9.99, "/dl/1", 4.2));
 
         //act
-        Product product = service.getProductByUniqueId(3L);
+        DigitalProduct product = (DigitalProduct) service.getProductByUniqueId(3L);
 
         assertEquals("E-book", product.getName());
+        assertEquals(9.99,product.getPrice());
+        assertEquals("/dl/1",product.getDownloadUrl());
+        assertEquals(4.2,product.getFileSizeMB());
     }
 
     @Test

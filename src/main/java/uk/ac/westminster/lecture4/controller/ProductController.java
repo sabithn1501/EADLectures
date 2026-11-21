@@ -1,5 +1,6 @@
 package uk.ac.westminster.lecture4.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ public class ProductController {
     Java forces you to leave the field non-final (mutable).
      */
     private final ProductService productService;
+
 
     public ProductController(ProductService productService) {
         this.productService = productService;
@@ -49,6 +51,8 @@ public class ProductController {
         When successful, Spring normally returns the product as JSON with 200 OK.
         But how do we explicitly control the status and body?
      */
+    @Operation(summary = "Get a product by ID",
+            description = "One product, or 404 if the id is unknown.")
     @GetMapping("/exception/{id}")
     public Product getProductByUniqueId(@PathVariable Long id) {
         return productService.getProductByUniqueId(id);
@@ -70,6 +74,8 @@ public class ProductController {
 
 
 
+    @Operation(summary = "Get all products",
+            description = "Returns every product in the system.")
     @GetMapping
     public List<Product> getProducts() {
         return productService.getProducts();

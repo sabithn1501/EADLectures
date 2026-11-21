@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     //Tells Spring which exception type this handler is responsible for.
-//    @ExceptionHandler(ProductNotFoundException.class)
-//    public ResponseEntity<ErrorResponse> handleNotFound(
-//            ProductNotFoundException ex) {
-//
-//        ErrorResponse error = new ErrorResponse(
-//                ex.getMessage(),
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(
+            ProductNotFoundException ex) {
 
-//        );
-//
-//        return ResponseEntity
-//                .status(HttpStatus.NOT_FOUND)
-//                .body(error);
-//    }
+        ErrorResponse error = new ErrorResponse(
+                ex.getMessage(),
+                HttpStatus.NOT_FOUND.value()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
 }
 
